@@ -9,7 +9,8 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'frankier/neovim-colors-solarized-truecolor-only' " Solarized color scheme
 " General purpose plugins
 Plugin 'Raimondi/delimitMate' " Automatic closing of brackets, quotes etc.
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe' " Completion manager
+Plugin 'ncm2/ncm2' " Completion manager
 Plugin 'neomake/neomake' " Run programs asynchronously e.g. Python linters
 Plugin 'scrooloose/nerdcommenter' " Commenting functions
 Plugin 'Vigemus/iron.nvim' " REPL commands for terminal buffer
@@ -155,6 +156,16 @@ let g:neomake_python_enabled_makers = ['flake8', 'pep8']
 " E501 is line length of 80 characters
 let g:neomake_python_flake8_maker = { 'args': ['--ignore=E115,E266,E501'], }
 let g:neomake_python_pep8_maker = { 'args': ['--max-line-length=120', '--ignore=E115,E266'], }
+" R
+let g:neomake_r_lintr_maker = {
+    \ 'exe': 'R',
+    \ 'args': ['-e lintr::lint("%:p")'], 
+    \ 'errorformat': 
+        \ '%W%f:%l:%c: style: %m,' .
+        \ '%W%f:%l:%c: warning: %m,' .
+        \ '%E%f:%l:%c: error: %m,'
+    \ }
+let g:neomake_r_enabled_makers = ['lintr']
 
 " run neomake on the current file on every write:
 autocmd! BufWritePost * Neomake
@@ -192,8 +203,8 @@ let skeletons#autoRegister = 1
 let skeletons#skeletonsDir = "~/.config/nvim/skeletons"
 
 " Set up Python programs
-let g:python2_host_prog = '/Users/huebner/.pyenv/versions/2.7.15/bin/python'
-let g:python3_host_prog = '/Users/huebner/.pyenv/versions/3.7.0/bin/python'
+let g:python2_host_prog = '/Users/alexander_huebner/.pyenv/versions/2.7.14/bin/python'
+let g:python3_host_prog = '/Users/alexander_huebner/.pyenv/versions/3.6.3/bin/python'
 
 " Iron.nvim
 " deactivate default mappings
