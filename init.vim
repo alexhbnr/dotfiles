@@ -9,16 +9,17 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'frankier/neovim-colors-solarized-truecolor-only' " Solarized color scheme
 " General purpose plugins
 Plugin 'Raimondi/delimitMate' " Automatic closing of brackets, quotes etc.
-Plugin 'ncm2/ncm2' " Completion manager
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'neomake/neomake' " Run programs asynchronously e.g. Python linters
 Plugin 'scrooloose/nerdcommenter' " Commenting functions
-Plugin 'BurningEther/iron.nvim' " REPL commands for terminal buffer
+Plugin 'Vigemus/iron.nvim' " REPL commands for terminal buffer
 Plugin 'godlygeek/tabular' " Aligning text functions
 Plugin 'SirVer/ultisnips' " Snippet manager
 Plugin 'tpope/vim-fugitive' " Git wrapper
 Plugin 'airblade/vim-gitgutter' " Shows git diff in sign column
 Plugin 'simnalamburt/vim-mundo' " Plugin to visualise the Undo tree
 Plugin 'pgilad/vim-skeletons' " Quickly scaffold template files
+Plugin 'gabrielelana/vim-markdown' " Markdown highlighting
 " R language
 Plugin 'gaalcaras/ncm-R' " Asynchronous completion of the R language
 Plugin 'jalvesaq/Nvim-R' " Enables R code
@@ -34,13 +35,11 @@ Plugin 'ivan-krukov/vim-snakemake' " Syntax highlighting for snakemake
 Plugin 'JuliaEditorSupport/julia-vim'
 " Previously used plugins
 " Plugin 'LaTeX-Box-Team/LaTeX-Box'
-" Plugin 'kassio/neoterm' " REPL commands for terminal buffer
 " Plugin 'tpope/tpope-vim-abolish'
 " Plugin 'tpope/vim-repeat'
 " Plugin 'tpope/vim-unimpaired'
 " Plugin 'benmills/vimux'
 " Plugin 'vimwiki/vimwiki'
-" Plugin 'Valloric/YouCompleteMe'
 " Plugin "rhysd/vim-grammarous" alternative vim-wordy
 call vundle#end()
 filetype plugin indent on
