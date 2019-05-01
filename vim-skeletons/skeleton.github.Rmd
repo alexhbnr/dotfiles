@@ -1,0 +1,18 @@
+---
+title: "Untitled"
+author: "Alex Huebner"
+date: "r format(Sys.time(), '%b %d, %Y')"
+output:
+    github_document:
+        fig_width: 8
+        fig_height: 6
+        toc: true
+---
+
+{r libraries, echo=F}
+library(knitr)
+library(data.table)
+library(tidyverse)
+library(pander)
+opts_chunk$set(echo=F, warning=F, message=F, dpi=150)
+
