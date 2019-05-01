@@ -9,8 +9,12 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'frankier/neovim-colors-solarized-truecolor-only' " Solarized color scheme
 " General purpose plugins
 Plugin 'Raimondi/delimitMate' " Automatic closing of brackets, quotes etc.
-Plugin 'Valloric/YouCompleteMe' " Completion manager
 Plugin 'ncm2/ncm2' " Completion manager
+Plugin 'roxma/nvim-yarp' " Remote plugin installer
+Plugin 'ncm2/ncm2-bufword' " Completion from the current buffer
+Plugin 'ncm2/ncm2-tmux' " Completion from other tmux panes
+Plugin 'ncm2/ncm2-path' " Completion from paths
+Plugin 'ncm2/ncm2-jedi' " Completion for python
 Plugin 'neomake/neomake' " Run programs asynchronously e.g. Python linters
 Plugin 'scrooloose/nerdcommenter' " Commenting functions
 Plugin 'Vigemus/iron.nvim' " REPL commands for terminal buffer
@@ -32,6 +36,7 @@ Plugin 'reedes/vim-wordy' " Uncover usage problems during writing
 " Python
 Plugin 'davidhalter/jedi-vim' " Python autocompletion with docstrings
 Plugin 'ivan-krukov/vim-snakemake' " Syntax highlighting for snakemake
+Plugin 'szymonmaszke/vimpyter' " Jupyter Notebook access
 " Julia
 Plugin 'JuliaEditorSupport/julia-vim'
 " Previously used plugins
@@ -42,6 +47,7 @@ Plugin 'JuliaEditorSupport/julia-vim'
 " Plugin 'benmills/vimux'
 " Plugin 'vimwiki/vimwiki'
 " Plugin "rhysd/vim-grammarous" alternative vim-wordy
+" Plugin 'Valloric/YouCompleteMe' " Completion manager
 call vundle#end()
 filetype plugin indent on
 
@@ -127,24 +133,24 @@ set inccommand=nosplit
 :tnoremap <Esc> <C-\><C-n>
 
 " NeoVim NeoTerm
-let g:neoterm_default_mod = 'belowright'
-let g:neoterm_automap_keys = ',tt'
+"let g:neoterm_default_mod = 'belowright'
+"let g:neoterm_automap_keys = ',tt'
 
-nnoremap <silent> ,t :TREPLSendLine<CR>
-vnoremap <silent> ,t :TREPLSendSelection<CR>
-vnoremap <silent> ,ls "+y <C-W>l a %paste <CR>
+"nnoremap <silent> ,t :TREPLSendLine<CR>
+"vnoremap <silent> ,t :TREPLSendSelection<CR>
+"vnoremap <silent> ,ls "+y <C-W>l a %paste <CR>
 
 " Useful maps
 " open terminal
-nnoremap <silent> ,to :Topen<CR>
+"nnoremap <silent> ,to :Topen<CR>
 " toggle terminal
-nnoremap <silent> ,tv :Ttoggle<CR>
+"nnoremap <silent> ,tv :Ttoggle<CR>
 " hide/close terminal
-nnoremap <silent> ,th :call neoterm#close()<CR>
+"nnoremap <silent> ,th :call neoterm#close()<CR>
 " clear terminal
-nnoremap <silent> ,tl :call neoterm#clear()<CR>
+"nnoremap <silent> ,tl :call neoterm#clear()<CR>
 " kills the current job (send a <c-c>)
-nnoremap <silent> ,tc :call neoterm#kill()<CR>
+"nnoremap <silent> ,tc :call neoterm#kill()<CR>
 
 " NeoVim NeoMake
 " neomake is async => it doesn't block the editor
@@ -152,7 +158,7 @@ nnoremap <silent> ,tc :call neoterm#kill()<CR>
 " $ sudo pip2/pip3 install flake8 -U
 " $ sudo pip2/pip3 install vulture -U
 "let g:neomake_python_enabled_makers = ['flake8', 'pep8', 'vulture']
-let g:neomake_python_enabled_makers = ['flake8', 'pep8']
+let g:neomake_python_enabled_makers = ['flake8', 'pydocstyle']
 " E501 is line length of 80 characters
 let g:neomake_python_flake8_maker = { 'args': ['--ignore=E115,E266,E501'], }
 let g:neomake_python_pep8_maker = { 'args': ['--max-line-length=120', '--ignore=E115,E266'], }
@@ -203,19 +209,36 @@ let skeletons#autoRegister = 1
 let skeletons#skeletonsDir = "~/.config/nvim/skeletons"
 
 " Set up Python programs
-let g:python2_host_prog = '/Users/alexander_huebner/.pyenv/versions/2.7.14/bin/python'
-let g:python3_host_prog = '/Users/alexander_huebner/.pyenv/versions/3.6.3/bin/python'
+let g:python2_host_prog = '/Users/huebner/miniconda3/envs/py27/bin/python'
+let g:python3_host_prog = '/Users/huebner/miniconda3/bin/python'
 
 " Iron.nvim
 " deactivate default mappings
 let g:iron_map_defaults=0
+lua require("iron").core.set_config{repl_open_cmd = "rightbelow 25 split"}
 " define custom mappings for the python filetype
 augroup ironmapping
     autocmd!
+    "autocmd Filetype python nmap <buffer> \l :lua require("iron").core.send_motion("line")<CR>
+    "autocmd Filetype python vmap <buffer> \b :lua require("iron").core.send_motion("block")<CR>
+    "autocmd Filetype python vmap <buffer> \l :lua require("iron").core.send_motion("visual")<CR>
     autocmd Filetype python nmap <buffer> \l <Plug>(iron-send-motion)
     autocmd Filetype python vmap <buffer> \l <Plug>(iron-send-motion)
-    autocmd Filetype python nmap <buffer> <localleader>p <Plug>(iron-repeat-cmd)
-augroup END
+"augroup END
 
 " DelimitMate
 au FileType rmd let b:delimitMate_matchpairs = "(:),[:],{:}"
+
+" Ncm2
+" Use <TAB> to select the popup menu
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANTE: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+" enable debugging for ncm_yarp
+let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
+let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
+
