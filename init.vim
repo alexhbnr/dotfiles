@@ -215,16 +215,13 @@ let g:python3_host_prog = '/Users/huebner/miniconda3/bin/python'
 " Iron.nvim
 " deactivate default mappings
 let g:iron_map_defaults=0
-lua require("iron").core.set_config{repl_open_cmd = "rightbelow 25 split"}
+luafile $HOME/.config/nvim/plugins.lua
 " define custom mappings for the python filetype
 augroup ironmapping
     autocmd!
-    "autocmd Filetype python nmap <buffer> \l :lua require("iron").core.send_motion("line")<CR>
-    "autocmd Filetype python vmap <buffer> \b :lua require("iron").core.send_motion("block")<CR>
-    "autocmd Filetype python vmap <buffer> \l :lua require("iron").core.send_motion("visual")<CR>
-    autocmd Filetype python nmap <buffer> \l <Plug>(iron-send-motion)
-    autocmd Filetype python vmap <buffer> \l <Plug>(iron-send-motion)
-"augroup END
+    autocmd Filetype python nmap \l :lua require("iron").core.send_line()<CR>
+    autocmd Filetype python vmap \l :lua require("iron").core.visual_send()<CR>
+augroup END
 
 " DelimitMate
 au FileType rmd let b:delimitMate_matchpairs = "(:),[:],{:}"
