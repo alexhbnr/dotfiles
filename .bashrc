@@ -5,6 +5,13 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+if [ -n "$TMUX" ]; then
+    if [ -f /etc/profile ]; then
+        PATH=""
+        source /etc/profile
+    fi
+fi
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -37,7 +44,6 @@ set -o vi
 
 # add script folders to PATH variable
 PATH="$HOME/usr/bin:$HOME/scripts:$PATH"  # user installs & scripts
-export PATH
 
 # Julia
 alias julia="julia --depwarn=no"
@@ -45,11 +51,28 @@ alias julia="julia --depwarn=no"
 # Git config
 source $HOME/.dotfiles/git-completion.bash
 source $HOME/.dotfiles/git-prompt.sh
-# PyEnv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
 # Apparix
 source $HOME/.bash_apparix
 # Tmux
 source $HOME/.tmux.bash
+# Aliases
+source $HOME/.bash_aliases
+
+# Locale
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/huebner/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/huebner/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/huebner/miniconda3/etc/profile.d/conda.sh"
+    else
+       export PATH="/Users/huebner/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
