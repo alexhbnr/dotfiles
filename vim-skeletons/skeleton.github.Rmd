@@ -7,7 +7,10 @@ output:
         fig_width: 8
         fig_height: 6
         toc: true
+bibliography:
 ---
+
+# Results
 
 {r libraries, echo=F}
 library(knitr)
@@ -15,5 +18,10 @@ library(rmarkdown)
 library(data.table)
 library(tidyverse)
 library(pander)
+library(patchwork)
 opts_chunk$set(echo=F, warning=F, message=F, dpi=150)
+theme_set(theme_classic(base_size = 10))
 
+{r load_data}
+
+# References
