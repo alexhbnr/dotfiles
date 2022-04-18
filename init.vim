@@ -24,7 +24,9 @@ Plugin 'tpope/vim-fugitive' " Git wrapper
 Plugin 'airblade/vim-gitgutter' " Shows git diff in sign column
 Plugin 'simnalamburt/vim-mundo' " Plugin to visualise the Undo tree
 Plugin 'pgilad/vim-skeletons' " Quickly scaffold template files
-Plugin 'gabrielelana/vim-markdown' " Markdown highlighting
+" Plugin 'gabrielelana/vim-markdown' " Markdown highlighting
+Plugin 'vim-pandoc/vim-pandoc-syntax' " advanced Markdown highlighting
+Plugin 'w0rp/ale' " syntax checker
 " R language
 Plugin 'gaalcaras/ncm-R' " Asynchronous completion of the R language
 Plugin 'jalvesaq/Nvim-R' " Enables R code
@@ -221,6 +223,8 @@ augroup ironmapping
     autocmd!
     autocmd Filetype python nmap \l :lua require("iron").core.send_line()<CR>
     autocmd Filetype python vmap \l :lua require("iron").core.visual_send()<CR>
+    autocmd Filetype julia nmap \l :lua require("iron").core.send_line()<CR>
+    autocmd Filetype julia vmap \l :lua require("iron").core.visual_send()<CR>
 augroup END
 
 " DelimitMate
