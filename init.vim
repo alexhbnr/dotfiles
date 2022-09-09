@@ -211,21 +211,13 @@ let skeletons#autoRegister = 1
 let skeletons#skeletonsDir = "~/.config/nvim/skeletons"
 
 " Set up Python programs
-let g:python2_host_prog = '/Users/huebner/miniconda3/envs/py27/bin/python'
-let g:python3_host_prog = '/Users/huebner/miniconda3/bin/python'
+let g:python2_host_prog = '/home/alexander_huebner/miniconda3/envs/py27/bin/python'
+let g:python3_host_prog = '/home/alexander_huebner/miniconda3/bin/python'
 
 " Iron.nvim
 " deactivate default mappings
 let g:iron_map_defaults=0
 luafile $HOME/.config/nvim/plugins.lua
-" define custom mappings for the python filetype
-augroup ironmapping
-    autocmd!
-    autocmd Filetype python nmap \l :lua require("iron").core.send_line()<CR>
-    autocmd Filetype python vmap \l :lua require("iron").core.visual_send()<CR>
-    autocmd Filetype julia nmap \l :lua require("iron").core.send_line()<CR>
-    autocmd Filetype julia vmap \l :lua require("iron").core.visual_send()<CR>
-augroup END
 
 " DelimitMate
 au FileType rmd let b:delimitMate_matchpairs = "(:),[:],{:}"
@@ -242,4 +234,3 @@ set completeopt=noinsert,menuone,noselect
 " enable debugging for ncm_yarp
 let $NVIM_PYTHON_LOG_FILE="/tmp/nvim_log"
 let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
-
